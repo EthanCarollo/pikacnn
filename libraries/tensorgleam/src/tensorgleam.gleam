@@ -1,8 +1,11 @@
 import gleam/javascript/array.{type Array}
+import gleam/javascript/promise.{type Promise}
 
 pub type Model
 
 pub type Layer
+
+pub type Tensor
 
 @external(javascript, "./tensorgleam_ffi.mjs", "getSequentialModel")
 pub fn get_sequential_model() -> Model
@@ -50,3 +53,35 @@ pub fn model_compile(
 
 @external(javascript, "./tensorgleam_ffi.mjs", "modelSummary")
 pub fn model_summary(model: Model) -> Model
+
+// TODO : MODIFY THIS TO PUT REAL TYPE
+// ! It is actually just string 
+@external(javascript, "./tensorgleam_ffi.mjs", "modelFit")
+pub fn model_fit(
+  model: Model,
+  train_data: String,
+  validation_split: Float,
+) -> Promise(String)
+
+// TODO : MODIFY THIS TO PUT REAL TYPE AGAIN LOL
+@external(javascript, "./tensorgleam_ffi.mjs", "modelSave")
+pub fn model_save(model: Model, path: String) -> Promise(String)
+
+/// Node and img
+@external(javascript, "./tensorgleam_ffi.mjs", "decodeImage")
+pub fn decode_image(buffer: String) -> Tensor
+
+@external(javascript, "./tensorgleam_ffi.mjs", "tensorResizeNearestNeighbor")
+pub fn tensor_resize_nearest_neighbor(
+  tensor: Tensor,
+  tensor_size: Int,
+) -> Tensor
+
+@external(javascript, "./tensorgleam_ffi.mjs", "tensorToFloat")
+pub fn tensor_to_float(tensor: Tensor) -> Tensor
+
+@external(javascript, "./tensorgleam_ffi.mjs", "tensorDivScalar")
+pub fn tensor_div_scalar(tensor: Tensor, scalar_factor: Float) -> Tensor
+
+@external(javascript, "./tensorgleam_ffi.mjs", "tensorExpandDims")
+pub fn tensor_expand_dims(tensor: Tensor) -> Tensor

@@ -1,4 +1,4 @@
-import tf from '@tensorflow/tfjs'
+import tf from '@tensorflow/tfjs-node'
 
 export function logModel(model){
     console.log(model)
@@ -84,4 +84,42 @@ export function modelCompile(model, optimizer, loss, metrics){
 export function modelSummary(model){
     model.summary()
     return model
+}
+
+export async function modelFit(model, trainData, validationSplit, epochs = 30, stepsPerEpoch = 100, validationSteps = 50){
+    const history = await model.fit(trainData, {
+        epochs: epochs,
+        validationSplit: validationSplit,
+        stepsPerEpoch: stepsPerEpoch,
+        validationSteps: validationSteps
+      });
+    return history;
+}
+
+export async function modelSave(model, path){
+    return await model.save(path)
+}
+
+/**
+ * 
+ */
+
+export function decodeImage(buffer){
+    return tf.node.decodeImage(buffer)
+}
+
+export function tensorResizeNearestNeighbor(tensor, tensor_size){
+    return tensor.resizeNearestNeighbor([tensor_size, tensor_size])
+}
+
+export function tensorToFloat(tensor){
+    return tensor.toFloat()
+}
+
+export function tensorDivScalar(tensor, scalarFactor){
+    return tensor.div(tf.scalar(scalarFactor))
+}
+
+export function tensorExpandDims(tensor){
+    return tensor.expandDims()
 }

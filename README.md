@@ -26,4 +26,5 @@ gleam shell # Run an Erlang shell
 
 ## Datasets 
 
-We can use a large amount of dataset, in our case, we will just use : https://huggingface.co/datasets/Dusduo/1stGen-Pokemon-Images
+We can use a large amount of dataset, in our case, we use : 
+https://www.kaggle.com/datasets/mikoajkolman/pokemon-images-first-generation17000-files/data

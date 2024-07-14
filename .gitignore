@@ -4,3 +4,5 @@
 erl_crash.dump
 node_modules
 libraries/*/node_modules
+data
+models/test
