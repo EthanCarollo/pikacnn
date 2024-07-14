@@ -85,3 +85,12 @@ pub fn tensor_div_scalar(tensor: Tensor, scalar_factor: Float) -> Tensor
 
 @external(javascript, "./tensorgleam_ffi.mjs", "tensorExpandDims")
 pub fn tensor_expand_dims(tensor: Tensor) -> Tensor
+
+@external(javascript, "./tensorgleam_ffi.mjs", "tfConcat")
+pub fn concat(tensors: Array(Tensor)) -> Tensor
+
+@external(javascript, "./tensorgleam_ffi.mjs", "oneHot")
+pub fn one_hot(tensors: Tensor, oh_length: Int) -> Tensor
+
+@external(javascript, "./tensorgleam_ffi.mjs", "tensor1D")
+pub fn tensor_1d(inputs: Array(Int), in_type: String) -> Tensor

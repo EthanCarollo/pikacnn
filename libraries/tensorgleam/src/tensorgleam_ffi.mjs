@@ -105,7 +105,11 @@ export async function modelSave(model, path){
  */
 
 export function decodeImage(buffer){
-    return tf.node.decodeImage(buffer)
+    let imageTensor = tf.node.decodeImage(buffer)
+    if (imageTensor.shape[2] === 4) {
+        imageTensor = imageTensor.slice([0, 0, 0], [-1, -1, 3]);
+    }
+    return imageTensor
 }
 
 export function tensorResizeNearestNeighbor(tensor, tensor_size){
@@ -122,4 +126,16 @@ export function tensorDivScalar(tensor, scalarFactor){
 
 export function tensorExpandDims(tensor){
     return tensor.expandDims()
+}
+
+export function tfConcat(tensors){
+    return tf.concat(tensors)
+}
+
+export function oneHot(array1d, length){
+    return tf.oneHot(array1d, length)
+}
+
+export function tensor1D(inputs, type='int32'){
+    return tf.tensor1d(inputs, type)
 }
