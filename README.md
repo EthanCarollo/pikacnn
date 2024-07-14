@@ -23,3 +23,7 @@ gleam run   # Run the project
 gleam test  # Run the tests
 gleam shell # Run an Erlang shell
 ```
+
+## Datasets 
+
+We can use a large amount of dataset, in our case, we will just use : https://huggingface.co/datasets/Dusduo/1stGen-Pokemon-Images

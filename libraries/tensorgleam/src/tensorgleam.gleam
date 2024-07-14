@@ -13,6 +13,13 @@ pub fn add_layer_to_model(model: Model, layer: Layer) -> Model
 @external(javascript, "./tensorgleam_ffi.mjs", "logModel")
 pub fn log_model(model: Model) -> Model
 
+@external(javascript, "./tensorgleam_ffi.mjs", "getConvolution2DLayerNoInput")
+pub fn get_convolution_2d_layer_no_input(
+  filters: Int,
+  kernel_size: Int,
+  activation: String,
+) -> Layer
+
 @external(javascript, "./tensorgleam_ffi.mjs", "getConvolution2DLayer")
 pub fn get_convolution_2d_layer(
   input_shape: Array(Int),
@@ -26,6 +33,12 @@ pub fn get_max_pooling_2d_layer(pool_size: Array(Int)) -> Layer
 
 @external(javascript, "./tensorgleam_ffi.mjs", "getFlatten")
 pub fn get_flatten() -> Layer
+
+@external(javascript, "./tensorgleam_ffi.mjs", "getDense")
+pub fn get_dense(units: Int, activation: String) -> Layer
+
+@external(javascript, "./tensorgleam_ffi.mjs", "getDropOut")
+pub fn get_drop_out(rate: Float) -> Layer
 
 @external(javascript, "./tensorgleam_ffi.mjs", "modelCompile")
 pub fn model_compile(
