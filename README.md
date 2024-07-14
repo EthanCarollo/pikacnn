@@ -4,7 +4,10 @@ This is a little repo that demonstrates how we can use Tensorflow JS in gleam to
 
 ## Requirements
 
-We will need npm
+We will need npm to install the differents dependencies needed
+```sh
+npm install
+```
 
 ## Datasets 
 
