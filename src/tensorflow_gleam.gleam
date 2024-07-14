@@ -1,7 +1,9 @@
 import gleam/io
+import model/construct.{construct_model}
 import tensorgleam
 
 pub fn main() {
-  io.println("Hello from tensorflow_gleam!")
-  tensorgleam.log_model(tensorgleam.get_sequential_model())
+  let _model =
+    construct_model()
+    |> tensorgleam.model_summary
 }
