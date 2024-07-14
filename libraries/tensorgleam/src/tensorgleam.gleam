@@ -7,14 +7,20 @@ pub type Layer
 
 pub type Tensor
 
+pub type UsableDataset
+
+pub type Dataset {
+  Dataset(xs: Tensor, ys: Tensor, label_map: Array(String))
+}
+
 @external(javascript, "./tensorgleam_ffi.mjs", "getSequentialModel")
 pub fn get_sequential_model() -> Model
 
 @external(javascript, "./tensorgleam_ffi.mjs", "addLayerToModel")
 pub fn add_layer_to_model(model: Model, layer: Layer) -> Model
 
-@external(javascript, "./tensorgleam_ffi.mjs", "logModel")
-pub fn log_model(model: Model) -> Model
+@external(javascript, "./tensorgleam_ffi.mjs", "log")
+pub fn log(info: a) -> a
 
 @external(javascript, "./tensorgleam_ffi.mjs", "getConvolution2DLayerNoInput")
 pub fn get_convolution_2d_layer_no_input(
@@ -55,11 +61,10 @@ pub fn model_compile(
 pub fn model_summary(model: Model) -> Model
 
 // TODO : MODIFY THIS TO PUT REAL TYPE
-// ! It is actually just string 
 @external(javascript, "./tensorgleam_ffi.mjs", "modelFit")
 pub fn model_fit(
   model: Model,
-  train_data: String,
+  train_data: UsableDataset,
   validation_split: Float,
 ) -> Promise(String)
 
@@ -94,3 +99,6 @@ pub fn one_hot(tensors: Tensor, oh_length: Int) -> Tensor
 
 @external(javascript, "./tensorgleam_ffi.mjs", "tensor1D")
 pub fn tensor_1d(inputs: Array(Int), in_type: String) -> Tensor
+
+@external(javascript, "./tensorgleam_ffi.mjs", "datasetToDatabaseUsableObject")
+pub fn dataset_to_usable(dataset: Dataset) -> UsableDataset

@@ -1,6 +1,6 @@
 import tf from '@tensorflow/tfjs-node'
 
-export function logModel(model){
+export function log(model){
     console.log(model)
 }
 
@@ -87,7 +87,7 @@ export function modelSummary(model){
 }
 
 export async function modelFit(model, trainData, validationSplit, epochs = 30, stepsPerEpoch = 100, validationSteps = 50){
-    const history = await model.fit(trainData, {
+    const history = await model.fit(trainData.xs, trainData.ys, {
         epochs: epochs,
         validationSplit: validationSplit,
         stepsPerEpoch: stepsPerEpoch,
@@ -138,4 +138,10 @@ export function oneHot(array1d, length){
 
 export function tensor1D(inputs, type='int32'){
     return tf.tensor1d(inputs, type)
+}
+
+export function datasetToDatabaseUsableObject(dataset){
+    return {
+       xs: dataset.xs, ys: dataset.ys, labelMap: dataset.label_map
+    }
 }
