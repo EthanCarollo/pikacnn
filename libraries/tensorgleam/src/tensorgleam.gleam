@@ -102,3 +102,9 @@ pub fn tensor_1d(inputs: Array(Int), in_type: String) -> Tensor
 
 @external(javascript, "./tensorgleam_ffi.mjs", "datasetToDatabaseUsableObject")
 pub fn dataset_to_usable(dataset: Dataset) -> UsableDataset
+
+@external(javascript, "./tensorgleam_ffi.mjs", "addNoise")
+pub fn tensor_add_noise(image: Tensor, noise: Int) -> Tensor
+
+@external(javascript, "./tensorgleam_ffi.mjs", "flipHorizontal")
+pub fn tensor_flip_horizontal(image: Tensor) -> Tensor

@@ -145,3 +145,16 @@ export function datasetToDatabaseUsableObject(dataset){
        xs: dataset.xs, ys: dataset.ys, labelMap: dataset.label_map
     }
 }
+
+/**
+ * Image data augment
+ */
+
+export function addNoise(image, noiseLevel) {
+    const noise = tf.randomNormal(image.shape, 0, noiseLevel);
+    return image.add(noise).clipByValue(0, 255);
+}
+
+export function flipHorizontal(image) {
+    return tf.image.flipLeftRight(image);
+}
