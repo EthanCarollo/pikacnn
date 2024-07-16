@@ -1,3 +1,4 @@
+import config.{image_size}
 import fsgleam
 import gleam/io
 import gleam/javascript/array
@@ -5,13 +6,13 @@ import gleam/list
 import gleam/string
 import tensorgleam.{type Dataset, type Tensor, Dataset}
 
-const image_size: Int = 150
-
 pub fn load_dataset(path: String) {
   let labels = array.to_list(fsgleam.read_dir_sync(path))
 
   let temp_dataset =
     list.fold(labels, #([], [], []), fn(dataset, label) {
+      io.debug("Load label : ")
+      io.debug(label)
       let every_tensor_and_index =
         get_tensor_and_index_img_in_label(
           string.concat([path, "/", label]),
@@ -59,18 +60,12 @@ fn load_and_augment_image(
   index: Int,
 ) -> #(List(Tensor), List(Int)) {
   let image1 = load_and_preprocess_image(file_path)
-  let image2 =
-    load_and_preprocess_image(file_path)
-    |> tensorgleam.tensor_add_noise(20)
-  let image3 =
-    load_and_preprocess_image(file_path)
-    |> tensorgleam.tensor_flip_horizontal
-  #([image1, image2], [index, index])
+  #([image1], [index])
 }
 
 fn load_and_preprocess_image(file_path: String) -> Tensor {
   let buffer = fsgleam.read_file_sync(file_path)
-  tensorgleam.decode_image(buffer)
+  tensorgleam.decode_image(buffer, file_path)
   |> tensorgleam.tensor_resize_nearest_neighbor(image_size)
   |> tensorgleam.tensor_to_float
   |> tensorgleam.tensor_div_scalar(255.0)

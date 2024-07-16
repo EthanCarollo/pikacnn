@@ -1,5 +1,4 @@
 import data/load.{load_dataset}
-import fsgleam
 import gleam/io
 import gleam/javascript/array
 import gleam/javascript/promise.{await, new, tap}
@@ -8,17 +7,27 @@ import model/construct.{construct_model}
 import tensorgleam
 
 pub fn main() {
+  tensorgleam.disable_warning()
+  tensorgleam.log("Start to load dataset")
   let dataset = load.load_dataset("./data/pokemon-light")
+  tensorgleam.log("Loaded dataset")
+  tensorgleam.log(dataset)
 
   let model = get_model(list.length(array.to_list(dataset.label_map)))
   let usable = tensorgleam.dataset_to_usable(dataset)
-
-  tap(tensorgleam.model_fit(model, usable, 0.2), fn(history) {
-    io.debug(history)
-  })
+  train_model(model, usable)
 }
 
 pub fn get_model(class: Int) {
   construct_model(class)
   |> tensorgleam.model_summary
+}
+
+pub fn train_model(
+  model: tensorgleam.Model,
+  usable_dataset: tensorgleam.UsableDataset,
+) {
+  tap(tensorgleam.model_fit(model, usable_dataset, 0.2, 10), fn(history) {
+    io.debug(history)
+  })
 }

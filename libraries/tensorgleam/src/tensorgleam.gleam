@@ -13,6 +13,9 @@ pub type Dataset {
   Dataset(xs: Tensor, ys: Tensor, label_map: Array(String))
 }
 
+@external(javascript, "./tensorgleam_ffi.mjs", "disableWarning")
+pub fn disable_warning() -> Nil
+
 @external(javascript, "./tensorgleam_ffi.mjs", "getSequentialModel")
 pub fn get_sequential_model() -> Model
 
@@ -66,6 +69,7 @@ pub fn model_fit(
   model: Model,
   train_data: UsableDataset,
   validation_split: Float,
+  epochs: Int,
 ) -> Promise(String)
 
 // TODO : MODIFY THIS TO PUT REAL TYPE AGAIN LOL
@@ -74,7 +78,7 @@ pub fn model_save(model: Model, path: String) -> Promise(String)
 
 /// Node and img
 @external(javascript, "./tensorgleam_ffi.mjs", "decodeImage")
-pub fn decode_image(buffer: String) -> Tensor
+pub fn decode_image(buffer: String, image_name: String) -> Tensor
 
 @external(javascript, "./tensorgleam_ffi.mjs", "tensorResizeNearestNeighbor")
 pub fn tensor_resize_nearest_neighbor(
