@@ -14,6 +14,9 @@ version = "0.0.1"
 
 target = "javascript"
 
+[javascript]
+runtime = "bun"
+
 [dependencies]
 gleam_stdlib = ">= 0.34.0 and < 2.0.0"
 tensorgleam = { path = "./libraries/tensorgleam" }

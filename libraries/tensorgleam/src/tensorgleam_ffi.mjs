@@ -1,4 +1,4 @@
-import tf from '@tensorflow/tfjs-node'
+import tf from '@tensorflow/tfjs-node-gpu'
 
 export function disableWarning(){
     process.env.TF_CPP_MIN_LOG_LEVEL = '3';
