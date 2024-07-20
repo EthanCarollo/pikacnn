@@ -177,3 +177,19 @@ export function addNoise(image, noiseLevel) {
 export function flipHorizontal(image) {
     return tf.image.flipLeftRight(image);
 }
+
+/**
+ * 
+ */
+
+export function startScope(){
+    tf.engine().startScope()
+}
+
+export function endScope(){
+    tf.engine().endScope()
+}
+
+export function disposeVariables(){
+    tf.engine().disposeVariables()
+}

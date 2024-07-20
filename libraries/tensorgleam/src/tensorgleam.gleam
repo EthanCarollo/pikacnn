@@ -120,3 +120,12 @@ pub fn tensor_add_noise(image: Tensor, noise: Int) -> Tensor
 
 @external(javascript, "./tensorgleam_ffi.mjs", "flipHorizontal")
 pub fn tensor_flip_horizontal(image: Tensor) -> Tensor
+
+@external(javascript, "./tensorgleam_ffi.mjs", "startScope")
+pub fn start_scope() -> Nil
+
+@external(javascript, "./tensorgleam_ffi.mjs", "endScope")
+pub fn end_scope() -> Nil
+
+@external(javascript, "./tensorgleam_ffi.mjs", "disposeVariables")
+pub fn dispose_variables() -> Nil
