@@ -47,6 +47,15 @@ export function getConvolution2DLayerNoInput(filters, kernelSize, activation){
     })
 }
 
+export function getConvolution2DLayerPadding(filters, kernelSize, padding, activation){
+    return tf.layers.conv2d({
+        filters: filters,
+        kernelSize: kernelSize,
+        padding: padding,
+        activation: activation
+    })
+}
+
 /**
  * @param {Array} poolSize array like [x, x] 
  * @returns 

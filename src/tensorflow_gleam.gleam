@@ -9,7 +9,7 @@ import tensorgleam
 pub fn main() {
   tensorgleam.disable_warning()
   tensorgleam.log("Start to load dataset")
-  let dataset = load.load_dataset("./data/pokemon-light")
+  let dataset = load.load_dataset("./data/pokemon-cleaned")
   tensorgleam.log("Loaded dataset")
   tensorgleam.log(dataset)
 

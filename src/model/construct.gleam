@@ -16,7 +16,7 @@ pub fn construct_model(class: Int) -> Model {
   )
   |> tensorgleam.add_layer_to_model(tensorgleam.get_drop_out(0.25))
   |> tensorgleam.add_layer_to_model(
-    tensorgleam.get_convolution_2d_layer_no_input(64, 4, "relu"),
+    tensorgleam.get_convolution_2d_layer_no_input_padding(64, 4, "same", "relu"),
   )
   |> tensorgleam.add_layer_to_model(
     tensorgleam.get_convolution_2d_layer_no_input(64, 4, "relu"),

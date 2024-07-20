@@ -60,10 +60,7 @@ fn load_and_augment_image(
   index: Int,
 ) -> #(List(Tensor), List(Int)) {
   let image1 = load_and_preprocess_image(file_path)
-  let image2 =
-    load_and_preprocess_image(file_path)
-    |> tensorgleam.tensor_add_noise(25)
-  #([image1, image2], [index, index])
+  #([image1], [index])
 }
 
 fn load_and_preprocess_image(file_path: String) -> Tensor {

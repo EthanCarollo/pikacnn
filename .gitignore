@@ -5,5 +5,7 @@ erl_crash.dump
 node_modules
 libraries/*/node_modules
 data
+!data/.gitkeep
+!data/data_augment.ipynb
 models/test
 !src/data

@@ -32,6 +32,14 @@ pub fn get_convolution_2d_layer_no_input(
   activation: String,
 ) -> Layer
 
+@external(javascript, "./tensorgleam_ffi.mjs", "getConvolution2DLayerPadding")
+pub fn get_convolution_2d_layer_no_input_padding(
+  filters: Int,
+  kernel_size: Int,
+  padding: String,
+  activation: String,
+) -> Layer
+
 @external(javascript, "./tensorgleam_ffi.mjs", "getConvolution2DLayer")
 pub fn get_convolution_2d_layer(
   input_shape: Array(Int),
