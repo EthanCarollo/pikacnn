@@ -1,3 +1,4 @@
+import config
 import data/load.{load_dataset}
 import gleam/io
 import gleam/javascript/array
@@ -9,7 +10,7 @@ import tensorgleam
 pub fn main() {
   tensorgleam.disable_warning()
   tensorgleam.log("Start to load dataset")
-  let dataset = load.load_dataset("./data/pokemon-cleaned")
+  let dataset = load.load_dataset(config.data_path)
   tensorgleam.log("Loaded dataset")
   tensorgleam.log(dataset)
 

@@ -11,8 +11,7 @@ pub fn load_dataset(path: String) {
 
   let temp_dataset =
     list.fold(labels, #([], [], []), fn(dataset, label) {
-      io.debug("Load label : ")
-      io.debug(label)
+      io.debug(string.append("Load label : ", label))
       let every_tensor_and_index =
         get_tensor_and_index_img_in_label(
           string.concat([path, "/", label]),
