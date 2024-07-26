@@ -9,3 +9,4 @@ data/*
 !data/data_augment.ipynb
 models/test
 !src/data
+.DS_Store

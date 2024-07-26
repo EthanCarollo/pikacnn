@@ -6,3 +6,6 @@ pub fn read_file_sync(path: String) -> String
 
 @external(javascript, "./fsgleam_ffi.mjs", "readDirSync")
 pub fn read_dir_sync(path: String) -> Array(String)
+
+@external(javascript, "./fsgleam_ffi.mjs", "isDir")
+pub fn is_dir(path: String) -> Bool

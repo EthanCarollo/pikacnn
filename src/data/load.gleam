@@ -12,16 +12,24 @@ pub fn load_dataset(path: String) {
   let temp_dataset =
     list.fold(labels, #([], [], []), fn(dataset, label) {
       io.debug(string.append("Load label : ", label))
-      let every_tensor_and_index =
-        get_tensor_and_index_img_in_label(
-          string.concat([path, "/", label]),
-          list.length(dataset.2),
-        )
-      #(
-        list.append(dataset.0, every_tensor_and_index.0),
-        list.append(dataset.1, every_tensor_and_index.1),
-        list.append(dataset.2, [label]),
-      )
+      let directory_path = string.concat([path, "/", label])
+      case fsgleam.is_dir(directory_path) {
+        True -> {
+          let every_tensor_and_index =
+            get_tensor_and_index_img_in_label(
+              directory_path,
+              list.length(dataset.2),
+            )
+          #(
+            list.append(dataset.0, every_tensor_and_index.0),
+            list.append(dataset.1, every_tensor_and_index.1),
+            list.append(dataset.2, [label]),
+          )
+        }
+        False -> {
+          #(dataset.0, dataset.1, dataset.2)
+        }
+      }
     })
   let dataset =
     Dataset(
