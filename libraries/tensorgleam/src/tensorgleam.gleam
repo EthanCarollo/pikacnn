@@ -54,6 +54,9 @@ pub fn get_max_pooling_2d_layer(pool_size: Array(Int)) -> Layer
 @external(javascript, "./tensorgleam_ffi.mjs", "getFlatten")
 pub fn get_flatten() -> Layer
 
+@external(javascript, "./tensorgleam_ffi.mjs", "getBatchNormalization")
+pub fn get_batch_normalization() -> Layer
+
 @external(javascript, "./tensorgleam_ffi.mjs", "getDense")
 pub fn get_dense(units: Int, activation: String) -> Layer
 

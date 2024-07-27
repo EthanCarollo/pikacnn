@@ -68,6 +68,10 @@ export function getFlatten(){
     return tf.layers.flatten()
 }
 
+export function getBatchNormalization(){
+    return tf.layers.batchNormalization()
+}
+
 /**
  * @param {Float32Array} rate 
  * @returns 
