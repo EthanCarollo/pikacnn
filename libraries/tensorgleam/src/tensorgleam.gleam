@@ -66,6 +66,7 @@ pub fn model_compile(
   optimizer: String,
   loss: String,
   metrics: Array(String),
+  learning_rate: Float,
 ) -> Model
 
 @external(javascript, "./tensorgleam_ffi.mjs", "modelSummary")
@@ -76,6 +77,7 @@ pub fn model_summary(model: Model) -> Model
 pub fn model_fit(
   model: Model,
   train_data: UsableDataset,
+  batch_size: Int,
   validation_split: Float,
   epochs: Int,
 ) -> Promise(String)
@@ -108,6 +110,9 @@ pub fn concat(tensors: Array(Tensor)) -> Tensor
 
 @external(javascript, "./tensorgleam_ffi.mjs", "oneHot")
 pub fn one_hot(tensors: Tensor, oh_length: Int) -> Tensor
+
+@external(javascript, "./tensorgleam_ffi.mjs", "isTensorImageShape")
+pub fn is_tensor_image_shape(tensors: Tensor, size: Int) -> Bool
 
 @external(javascript, "./tensorgleam_ffi.mjs", "tensor1D")
 pub fn tensor_1d(inputs: Array(Int), in_type: String) -> Tensor

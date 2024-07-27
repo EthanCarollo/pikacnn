@@ -16,10 +16,15 @@ pub fn construct_model(class: Int) -> Model {
   )
   |> tensorgleam.add_layer_to_model(tensorgleam.get_drop_out(0.25))
   |> tensorgleam.add_layer_to_model(
-    tensorgleam.get_convolution_2d_layer_no_input_padding(64, 4, "same", "relu"),
+    tensorgleam.get_convolution_2d_layer_no_input_padding(
+      128,
+      4,
+      "same",
+      "relu",
+    ),
   )
   |> tensorgleam.add_layer_to_model(
-    tensorgleam.get_convolution_2d_layer_no_input(64, 4, "relu"),
+    tensorgleam.get_convolution_2d_layer_no_input(256, 4, "relu"),
   )
   |> tensorgleam.add_layer_to_model(
     tensorgleam.get_max_pooling_2d_layer(from_list([2, 2])),
@@ -33,5 +38,6 @@ pub fn construct_model(class: Int) -> Model {
     "adam",
     "categoricalCrossentropy",
     from_list(["accuracy"]),
+    config.learning_rate,
   )
 }

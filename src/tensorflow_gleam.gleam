@@ -28,7 +28,14 @@ pub fn train_model(
   model: tensorgleam.Model,
   usable_dataset: tensorgleam.UsableDataset,
 ) {
-  tap(tensorgleam.model_fit(model, usable_dataset, 0.2, 10), fn(history) {
-    io.debug(history)
-  })
+  tap(
+    tensorgleam.model_fit(
+      model,
+      usable_dataset,
+      config.batch_size,
+      0.2,
+      config.epoch,
+    ),
+    fn(history) { io.debug(history) },
+  )
 }

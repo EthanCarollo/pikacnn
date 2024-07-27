@@ -85,9 +85,10 @@ export function getDense(units, activation){
     return tf.layers.dense({units: units, activation: activation})
 }
 
-export function modelCompile(model, optimizer, loss, metrics){
+export function modelCompile(model, optimizer, loss, metrics, learningRate){
     model.compile({
         optimizer: optimizer,
+        learningRate: learningRate,
         loss: loss,
         metrics: metrics
     });
@@ -99,8 +100,9 @@ export function modelSummary(model){
     return model
 }
 
-export async function modelFit(model, trainData, validationSplit, epochs){
+export async function modelFit(model, trainData, batchSize, validationSplit, epochs){
     const history = await model.fit(trainData.xs, trainData.ys, {
+        batchSize: batchSize,
         epochs: epochs,
         validationSplit: validationSplit
       });
@@ -192,4 +194,10 @@ export function endScope(){
 
 export function disposeVariables(){
     tf.engine().disposeVariables()
+}
+
+export function isTensorImageShape(tensor, size){
+    const width = tensor.shape[1];
+    const height = tensor.shape[0];
+    return width === size && height === size
 }

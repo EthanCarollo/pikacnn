@@ -47,8 +47,11 @@ pub fn get_tensor_and_index_img_in_label(
   index: Int,
 ) -> #(List(Tensor), List(Int)) {
   let images_path = array.to_list(fsgleam.read_dir_sync(directory_path))
-  list.fold(images_path, #([], []), fn(ts_id, image) {
-    case ends_with_image_extension(image) {
+  list.index_fold(images_path, #([], []), fn(ts_id, image, index) {
+    case
+      ends_with_image_extension(image)
+      && index < config.max_image_per_label
+    {
       True -> {
         let image_path = string.concat([directory_path, "/", image])
         let image_augmented = load_and_augment_image(image_path, index)
@@ -72,7 +75,11 @@ fn load_and_augment_image(
 
 fn load_and_preprocess_image(file_path: String) -> Tensor {
   let buffer = fsgleam.read_file_sync(file_path)
-  tensorgleam.decode_image(buffer, file_path)
+  let image = tensorgleam.decode_image(buffer, file_path)
+  case tensorgleam.is_tensor_image_shape(image, image_size) {
+    False -> tensorgleam.tensor_resize_nearest_neighbor(image, image_size)
+    True -> image
+  }
   |> tensorgleam.tensor_resize_nearest_neighbor(image_size)
   |> tensorgleam.tensor_to_float
   |> tensorgleam.tensor_div_scalar(255.0)
