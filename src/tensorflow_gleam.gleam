@@ -5,9 +5,20 @@ import gleam/javascript/array
 import gleam/javascript/promise.{await, new, tap}
 import gleam/list
 import model/construct.{construct_model}
+import pklgleam
 import tensorgleam
+import gleam/dynamic.{field, list, int, string}
+
+///pub type TestRecord{
+///  TestRecord(name: String)
+///}
 
 pub fn main() {
+  //io.debug(pklgleam.pkl_decode("config.pkl", dynamic.decode1(TestRecord, field("name", of: string))))
+  launch_model()
+}
+
+pub fn launch_model() {
   tensorgleam.disable_warning()
   tensorgleam.log("Start to load dataset")
   let dataset = load.load_dataset(config.data_path)
