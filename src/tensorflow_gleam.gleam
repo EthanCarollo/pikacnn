@@ -15,7 +15,7 @@ import tensorgleam
 ///}
 pub fn main() {
   {
-    let configuration =
+    let assert configuration =
       pklgleam.pkl_decode(
         "config.pkl",
         dynamic.decode7(
@@ -29,6 +29,8 @@ pub fn main() {
           field("learning_rate", of: dynamic.float),
         ),
       )
+    io.debug(configuration)
+    io.debug("toto")
   }
 }
 

@@ -45,16 +45,3 @@ export default class PklParser {
         return block;
     }
 }
-
-// Usage example
-const pklData = `
-name = "Swallow"
-job {
-  title = "Sr. Nest Maker"
-  company = "Nests R Us"
-  yearsOfExperience = 2
-}`;
-
-const parser = new PklParser(pklData);
-const parsedData = parser.parse();
-console.log(parsedData);
