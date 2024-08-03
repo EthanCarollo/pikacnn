@@ -122,18 +122,6 @@ export async function modelSave(model, path){
  */
 export function decodeImage(buffer, imageName){
     let imageTensor = tf.node.decodeImage(buffer)
-    // Ensure image is to rgb
-    if (imageTensor.shape[2] === 4) {
-        imageTensor = imageTensor.slice([0, 0, 0], [-1, -1, 3]);
-    }
-    // Ensure that if image is greyscale, it isnt
-    if (imageTensor.shape[2] === 1) {
-        imageTensor = tf.tile(imageTensor, [1, 1, 3]);
-    }
-    // Add a third channel if it doesn't exist
-    if (imageTensor.shape[2] === 2) {
-        console.log("Image has 2 channel, cannot convert it, gonna crash : " + imageName)
-    }
     return imageTensor
 }
 

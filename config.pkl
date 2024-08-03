@@ -1,7 +1,7 @@
-data_path = "./data/pokemon-augmented-clean-resized-fusionned"
-image_size = 224
+data_path = "./data/pokemon-augmented-clean-resized"
+image_size = 150
 max_image_per_label = 1000
 max_label_taken_per_train = 8
 epoch = 50
-batch_size = 64
-learning_rate = 0.001
+batch_size = 16
+learning_rate = 0.0005
