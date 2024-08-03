@@ -14,8 +14,8 @@ import tensorgleam
 ///  TestRecord(name: String)
 ///}
 pub fn main() {
-  {
-    let assert configuration =
+  let configuration =
+    result.unwrap(
       pklgleam.pkl_decode(
         "config.pkl",
         dynamic.decode7(
@@ -28,10 +28,10 @@ pub fn main() {
           field("batch_size", of: int),
           field("learning_rate", of: dynamic.float),
         ),
-      )
-    io.debug(configuration)
-    io.debug("toto")
-  }
+      ),
+      config.default_config(),
+    )
+  launch_model(configuration)
 }
 
 pub fn launch_model(config: config.Config) {
