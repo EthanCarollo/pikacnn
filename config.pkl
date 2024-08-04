@@ -1,7 +1,7 @@
 data_path = "./data/pokemon-resized"
 image_size = 192
 max_image_per_label = 1000
-max_label_taken_per_train = 100
+max_label_taken_per_train = 14
 epoch = 50
 batch_size = 16
 learning_rate = 0.001
