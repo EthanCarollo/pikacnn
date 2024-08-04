@@ -36,9 +36,7 @@ pub fn main() {
 
 pub fn launch_model(config: config.Config) {
   tensorgleam.disable_warning()
-  tensorgleam.log("Start to load dataset")
   let dataset = load.load_dataset(config)
-  tensorgleam.log("Loaded dataset")
   tensorgleam.log(dataset)
 
   let model = get_model(list.length(array.to_list(dataset.label_map)), config)

@@ -108,7 +108,8 @@ export async function modelFit(model, trainData, batchSize, validationSplit, epo
     const history = await model.fit(trainData.xs, trainData.ys, {
         batchSize: batchSize,
         epochs: epochs,
-        validationSplit: validationSplit
+        validationSplit: validationSplit,
+        shuffle: true
       });
     return history;
 }
