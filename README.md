@@ -25,5 +25,4 @@ gleam run
 - Improve this model and make it really efficier, actually it just learn like an idiot and don't answer well
 - Make the tensorflow gleam lib better and more concise
 - Add save for the model at the end of the training
-- Add catch for incorrect sRGB profile and "invalid"
-![alt text](image.png)
+- Add more data, create a new dataset with like 20 labels but a lot of data

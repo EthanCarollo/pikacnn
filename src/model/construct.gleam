@@ -5,6 +5,7 @@ import gleam/int
 import gleam/javascript/array.{from_list}
 import tensorgleam.{type Model}
 
+/// This model is actually not really efficient, it's probably cause of data.
 pub fn construct_model(class: Int, config: config.Config) -> Model {
   tensorgleam.get_sequential_model()
   |> tensorgleam.add_layer_to_model(tensorgleam.get_convolution_2d_layer(
@@ -33,7 +34,7 @@ pub fn construct_model(class: Int, config: config.Config) -> Model {
   |> tensorgleam.add_layer_to_model(tensorgleam.get_drop_out(0.2))
   |> tensorgleam.add_layer_to_model(
     tensorgleam.get_convolution_2d_layer_no_input_padding(
-      config.image_size * 2,
+      config.image_size * 4,
       3,
       "same",
       "relu",

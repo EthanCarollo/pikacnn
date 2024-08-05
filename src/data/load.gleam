@@ -35,15 +35,14 @@ pub fn load_dataset(config: config.Config) {
         }
       }
     })
-  let dataset =
-    Dataset(
-      tensorgleam.concat(array.from_list(temp_dataset.0)),
-      tensorgleam.one_hot(
-        tensorgleam.tensor_1d(array.from_list(temp_dataset.1), "int32"),
-        list.length(temp_dataset.2),
-      ),
-      array.from_list(temp_dataset.2),
-    )
+  Dataset(
+    tensorgleam.concat(array.from_list(temp_dataset.0)),
+    tensorgleam.one_hot(
+      tensorgleam.tensor_1d(array.from_list(temp_dataset.1), "int32"),
+      list.length(temp_dataset.2),
+    ),
+    array.from_list(temp_dataset.2),
+  )
 }
 
 pub fn get_tensor_and_index_img_in_label(
