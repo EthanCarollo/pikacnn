@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@pyodide/pyodide": "^0.17.1",
+    "@tensorflow/tfjs": "^4.20.0",
+    "@tensorflow/tfjs-node": "^4.20.0",
+    "@tensorflow/tfjs-node-gpu": "^4.20.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "pyodide": "^0.26.2"
+  }
+}
