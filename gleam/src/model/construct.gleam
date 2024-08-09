@@ -10,18 +10,22 @@ pub fn construct_model(class: Int, config: config.Config) -> Model {
   tensorgleam.get_sequential_model()
   |> tensorgleam.add_layer_to_model(tensorgleam.get_convolution_2d_layer(
     from_list([config.image_size, config.image_size, 3]),
-    float.round(int.to_float(config.image_size) /. 1.5),
+    32,
     3,
     "relu",
   ))
   |> tensorgleam.add_layer_to_model(
     tensorgleam.get_max_pooling_2d_layer(from_list([2, 2])),
   )
-  |> tensorgleam.add_layer_to_model(tensorgleam.get_batch_normalization())
-  |> tensorgleam.add_layer_to_model(tensorgleam.get_drop_out(0.2))
+  |> tensorgleam.add_layer_to_model(
+    tensorgleam.get_convolution_2d_layer_no_input_padding(64, 3, "same", "relu"),
+  )
+  |> tensorgleam.add_layer_to_model(
+    tensorgleam.get_max_pooling_2d_layer(from_list([2, 2])),
+  )
   |> tensorgleam.add_layer_to_model(
     tensorgleam.get_convolution_2d_layer_no_input_padding(
-      config.image_size,
+      128,
       3,
       "same",
       "relu",
@@ -30,11 +34,9 @@ pub fn construct_model(class: Int, config: config.Config) -> Model {
   |> tensorgleam.add_layer_to_model(
     tensorgleam.get_max_pooling_2d_layer(from_list([2, 2])),
   )
-  |> tensorgleam.add_layer_to_model(tensorgleam.get_batch_normalization())
-  |> tensorgleam.add_layer_to_model(tensorgleam.get_drop_out(0.2))
   |> tensorgleam.add_layer_to_model(
     tensorgleam.get_convolution_2d_layer_no_input_padding(
-      config.image_size * 4,
+      256,
       3,
       "same",
       "relu",
@@ -43,13 +45,8 @@ pub fn construct_model(class: Int, config: config.Config) -> Model {
   |> tensorgleam.add_layer_to_model(
     tensorgleam.get_max_pooling_2d_layer(from_list([2, 2])),
   )
-  |> tensorgleam.add_layer_to_model(tensorgleam.get_batch_normalization())
-  |> tensorgleam.add_layer_to_model(tensorgleam.get_drop_out(0.2))
   |> tensorgleam.add_layer_to_model(tensorgleam.get_flatten())
-  |> tensorgleam.add_layer_to_model(tensorgleam.get_dense(
-    config.image_size * 2,
-    "relu",
-  ))
+  |> tensorgleam.add_layer_to_model(tensorgleam.get_dense(1024, "relu"))
   |> tensorgleam.add_layer_to_model(tensorgleam.get_drop_out(0.5))
   |> tensorgleam.add_layer_to_model(tensorgleam.get_dense(class, "softmax"))
   |> tensorgleam.model_compile(
