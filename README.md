@@ -1,28 +1,31 @@
-# Tensorflow Gleam & Pokémon.
+# Tensorflow Pokemon CNN
 
-This is a little repo that demonstrates how we can use Tensorflow JS in gleam to train little model.
+This is a little repo of a Pokemon CNN that aims to recognize every pokemon of the first generation
 
-## Requirements
+## Structure
 
-We will need npm to install the differents dependencies needed
-```sh
-npm install
+
 ```
+├── data 
+├── gleam
+└── jupyter
+```
+
+### Data
+
+**Data folder**, it's here where you put the dataset folder with every labels, in, you can also apply data augmentations that are in the jupyter folder.
+
+### Gleam
+
+**Gleam Folder**, a little example of how we can make a little CNN with Tensorflow JS and Gleam, nothing really solid but it works !
+
+### Jupyter
+
+**Jupyter Folder**, a real in world example with Tensorflow of the implementation of a little CNN.
+
 
 ## Datasets 
 
 We can use a large amount of dataset, in our case, we use : 
 https://www.kaggle.com/datasets/mikoajkolman/pokemon-images-first-generation17000-files/data
 and then, we just put it into data/pokemon
-
-## How to run a training ?
-```sh
-gleam run
-```
-
-## For the future
-
-- Improve this model and make it really efficier, actually it just learn like an idiot and don't answer well
-- Make the tensorflow gleam lib better and more concise
-- Add save for the model at the end of the training
-- Add more data, create a new dataset with like 20 labels but a lot of data

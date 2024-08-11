@@ -1,5 +1,8 @@
 *.beam
-*.ez
+*.ez$
+build
+node_modules
+.ipynb_checkpoints
 gleam/build
 gleam/erl_crash.dump
 gleam/node_modules
