@@ -1,12 +1,13 @@
 # Tensorflow Pokemon CNN
 
-This is a little repo of a Pokemon CNN that aims to recognize every pokemon of the first generation
+This is a little repo of a Pokemon CNN that aims to recognize every pokemon of the first generation, using different languages and tools.
 
 ## Structure
 
 
 ```
 ├── data 
+├── elixir
 ├── gleam
 └── jupyter
 ```
@@ -14,6 +15,10 @@ This is a little repo of a Pokemon CNN that aims to recognize every pokemon of t
 ### Data
 
 **Data folder**, it's here where you put the dataset folder with every labels, in, you can also apply data augmentations that are in the jupyter folder.
+
+### Elixir
+
+**Elixir Folder**, a little example of the implementation of the CNN but with [Axon](https://github.com/elixir-nx/axon) (a machine learning library in Elixir)
 
 ### Gleam
 
