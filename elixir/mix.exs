@@ -1,4 +1,4 @@
-defmodule YourProject.MixProject do
+defmodule PikaCNN.MixProject do
   use Mix.Project
 
   def project do
@@ -22,7 +22,9 @@ defmodule YourProject.MixProject do
     [
       {:axon, "~> 0.6.1"},
       {:nx, "~> 0.7.0", optional: true},
-      {:exla, "~> 0.7.0", optional: true}
+      {:evision, "~> 0.1.5"},
+      {:exla, "~> 0.7.0", optional: true},
+      {:torchx, "~> 0.3"}
     ]
   end
 end
