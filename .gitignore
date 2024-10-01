@@ -16,3 +16,13 @@ jupyter/models/*
 models/test
 !gleam/src/data
 .DS_Store
+_elixir_ls/
+_build/
+*.ez
+*.firm
+*.img
+*.img.gz
+rootfs_additions
+rel
+tmp
+elixir/deps
