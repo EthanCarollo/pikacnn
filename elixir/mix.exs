@@ -3,7 +3,7 @@ defmodule PikaCNN.MixProject do
 
   def project do
     [
-      app: :your_project,
+      app: :pika_cnn,
       version: "0.1.0",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
@@ -13,10 +13,15 @@ defmodule PikaCNN.MixProject do
 
   # Here we use `def` instead of `defp`
   def application do
+    # Automatically run the function at startup
+    PikaCNN.run()
+
     [
       extra_applications: [:logger]
     ]
   end
+
+
 
   defp deps do
     [
