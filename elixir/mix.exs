@@ -11,7 +11,6 @@ defmodule PikaCNN.MixProject do
     ]
   end
 
-  # Here we use `def` instead of `defp`
   def application do
     # Automatically run the function at startup
     PikaCNN.run()
