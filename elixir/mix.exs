@@ -12,15 +12,10 @@ defmodule PikaCNN.MixProject do
   end
 
   def application do
-    # Automatically run the function at startup
-    PikaCNN.run()
-
     [
       extra_applications: [:logger]
     ]
   end
-
-
 
   defp deps do
     [

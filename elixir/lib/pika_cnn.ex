@@ -1,6 +1,6 @@
 defmodule PikaCNN do
   def run do
-    directory_path = "../data/pokemon-128augmented"
+    directory_path = "../data/pokemon"
     max_images_per_label = 1000
 
     # This should be good
