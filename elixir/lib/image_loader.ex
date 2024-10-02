@@ -83,22 +83,17 @@ defmodule ImageLoader do
   end
 
   def train_test_split(images, labels, test_size \\ 0.2) do
-    # Get the total number of images
     num_images = elem(Nx.shape(images), 0)  # Get the size of the first dimension (number of images)
 
-    # Calculate the split index for training set size
-    IO.inspect(num_images)
     split_index = round(num_images * (1.0 - test_size))
 
-    # Ensure split_index is within bounds
     split_index = min(split_index, num_images)
 
-    # Split images and labels into train and test sets
-    # TODO : here there is a problem, will fix later cause 😴
-    {X_train, X_test} = Nx.split(images, split_index)
-    {y_train, y_test} = Nx.split(labels, split_index)
+    {x_train, x_test} = Nx.split(images, split_index, axis: 0)
+    {y_train, y_test} = Nx.split(labels, split_index, axis: 0)
 
-    {X_train, X_test, y_train, y_test}
+
+    {x_train, x_test, y_train, y_test}
   end
 
 end
