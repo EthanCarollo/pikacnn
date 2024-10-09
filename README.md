@@ -2,6 +2,8 @@
 
 This is a little repo of a Pokemon CNN that aims to recognize every pokemon of the first generation, using different languages and tools.
 
+> DISCLAIMER : In this repository, you will have some examples of how to make a CNN with different technologies, however, I do not claim to know how to use it at all, like, I don't know anything about the Elixir ecosystem for example, the main purpose of making this CNN in different languages with differents framework was simply for learning purposes and not for real use (even if it may should work lol).
+
 ## Structure
 
 
