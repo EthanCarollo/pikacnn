@@ -1,38 +1,54 @@
-# Tensorflow Pokemon CNN
+# pikacnn
 
-This is a little repo of a Pokemon CNN that aims to recognize every pokemon of the first generation, using different languages and tools.
+Pokemon image classification with a **JAX/Flax** convolutional neural network.
+Trained on the [Pokemon Generation One](https://www.kaggle.com/datasets/thedagger/pokemon-generation-one) dataset.
 
-> DISCLAIMER : In this repository, you will have some examples of how to make a CNN with different technologies, however, I do not claim to know how to use it at all, like, I don't know anything about the Elixir ecosystem for example, the main purpose of making this CNN in different languages with differents framework was simply for learning purposes and not for real use (even if it may should work lol).
+## Setup
 
-## Structure
+```bash
+# Create and activate a virtual environment
+python -m venv .venv
+source .venv/bin/activate
 
-
+# Install dependencies
+pip install -r requirements.txt
 ```
-├── data 
-├── elixir
-├── gleam
-└── jupyter
+
+> For GPU support, replace `jax[cpu]` with `jax[cuda12]` in `requirements.txt`.
+
+## Dataset
+
+The dataset is downloaded automatically on first run via `kagglehub`.
+Make sure you have a Kaggle account and your API credentials configured:
+
+```bash
+# Place kaggle.json in ~/.kaggle/ (download from Kaggle → Settings → API)
+mkdir -p ~/.kaggle
+cp /path/to/kaggle.json ~/.kaggle/
+chmod 600 ~/.kaggle/kaggle.json
 ```
 
-### Data
+## Training
 
-**Data folder**, it's here where you put the dataset folder with every labels, in, you can also apply data augmentations that are in the jupyter folder.
+```bash
+python train.py
+```
 
-### Elixir
+All hyperparameters are in the `CONFIG` dict at the top of `train.py`.
 
-**Elixir Folder**, a little example of the implementation of the CNN but with [Axon](https://github.com/elixir-nx/axon) (a machine learning library in Elixir)
+## Architecture
 
-### Gleam
+| Layer          | Details                          |
+|----------------|----------------------------------|
+| Conv2D ×5     | 32→64→128→256→512 filters, 3×3  |
+| BatchNorm      | After each conv                  |
+| MaxPooling     | 2×2 after each block             |
+| Dense          | 1024 units, ReLU                 |
+| Dropout        | 0.5                              |
+| Output         | Dense(num_classes), softmax      |
 
-**Gleam Folder**, a little example of how we can make a little CNN with Tensorflow JS and Gleam, nothing really solid but it works !
+Optimizer: **AdamW** with cosine decay + warmup.
 
-### Jupyter
+## License
 
-**Jupyter Folder**, a real in world example with Tensorflow of the implementation of a little CNN.
-
-
-## Datasets 
-
-We can use a large amount of dataset, in our case, we use : 
-https://www.kaggle.com/datasets/mikoajkolman/pokemon-images-first-generation17000-files/data
-and then, we just put it into data/pokemon
+MIT

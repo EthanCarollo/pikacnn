@@ -1,28 +1,38 @@
-*.beam
-*.ez$
-build
-node_modules
-.ipynb_checkpoints
-gleam/build
-gleam/erl_crash.dump
-gleam/node_modules
-gleam/libraries/*/node_modules
-data/*
-!data/.gitkeep
-!data/data_augment.ipynb
-!data/model.ipynb
-jupyter/models/*
-!jupyter/models/.gitkeep
-models/test
-!gleam/src/data
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+env/
+
+# JAX compilation cache
+.jax_cache/
+
+# Dataset (downloaded automatically)
+data/
+
+# Model checkpoints
+checkpoints/
+*.ckpt
+
+# IDE
+.vscode/
+.idea/
+
+# OS
 .DS_Store
-_elixir_ls/
-_build/
-*.ez
-*.firm
-*.img
-*.img.gz
-rootfs_additions
-rel
-tmp
-elixir/deps
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# ZCode sessions
+.zcode/
+
+# Misc
+*.log
