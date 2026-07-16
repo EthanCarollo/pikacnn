@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokéCNN — Classifier les Pokémon avec un CNN</title>
+    <style>
+        /* ── Reset & base ─────────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.7;
+            color: #1a1a2e;
+            background: #f8f9fc;
+        }
+
+        /* ── Header ───────────────────────────────────────── */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            text-align: center;
+            padding: 4rem 1.5rem 3rem;
+        }
+        header h1 { font-size: 2.8rem; font-weight: 800; letter-spacing: -.5px; }
+        header p  { font-size: 1.15rem; opacity: .9; margin-top: .5rem; }
+
+        /* ── Sections ─────────────────────────────────────── */
+        main {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+        section { margin-bottom: 3rem; }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #4a4a8a;
+            border-bottom: 3px solid #764ba2;
+            padding-bottom: .35rem;
+            margin-bottom: 1rem;
+        }
+        p { margin-bottom: 1rem; color: #333; }
+
+        /* ── Architecture cards ───────────────────────────── */
+        .arch {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+            margin: 1.5rem 0;
+        }
+        .arch-block {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #fff;
+            border-radius: 10px;
+            padding: .9rem 1.2rem;
+            box-shadow: 0 2px 8px rgba(102,126,234,.12);
+        }
+        .arch-num {
+            width: 32px; height: 32px;
+            background: #667eea;
+            color: #fff;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+            font-size: .85rem;
+            flex-shrink: 0;
+        }
+        .arch-label { font-weight: 600; }
+        .arch-detail { font-size: .88rem; color: #666; margin-left: auto; }
+
+        .arch-line {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #aaa;
+            line-height: 1;
+        }
+
+        /* ── Footer ───────────────────────────────────────── */
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            font-size: .88rem;
+            color: #888;
+            border-top: 1px solid #ddd;
+        }
+        footer a { color: #667eea; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        /* ── Mobile ───────────────────────────────────────── */
+        @media (max-width: 500px) {
+            header h1 { font-size: 2rem; }
+            .arch-detail { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🧠 PokéCNN</h1>
+    <p>Reconnaître les 151 Pokémon de la première génération avec un réseau de neurones convolutif</p>
+</header>
+
+<main>
+
+    <!-- ── C'est quoi un CNN ? ──────────────────────────── -->
+    <section>
+        <h2>🔍 Qu'est-ce qu'un CNN&nbsp;?</h2>
+        <p>
+            Un <strong>Convolutional Neural Network</strong> (CNN) est un type de réseau de neurones
+            spécialisé dans l'analyse d'images. Plutôt que de regarder l'image pixel par pixel,
+            il applique des <strong>filtres</strong> (ou convolutions) qui détectent des motifs&nbsp;:
+            bords, textures, formes… puis les combine couche après couche pour identifier
+            l'objet final — ici, un Pokémon.
+        </p>
+        <p>
+            Le processus suit trois étapes&nbsp;:
+        </p>
+        <ol style="padding-left:1.4rem; color:#333; margin-bottom:1rem;">
+            <li><strong>Convolution</strong> — des filtres 3×3 balayent l'image pour détecter des motifs.</li>
+            <li><strong>Pooling</strong> — on réduit la taille de l'image pour garder l'essentiel et accélérer les calculs.</li>
+            <li><strong>Dense</strong> — à la fin, des couches classiques prennent la décision finale.</li>
+        </ol>
+    </section>
+
+    <!-- ── Architecture ─────────────────────────────────── -->
+    <section>
+        <h2>🏗️ Architecture du modèle</h2>
+        <p>
+            Le modèle <strong>PokéCNN</strong> est construit avec <strong>JAX + Flax</strong>.
+            Il prend une image RGB de 128&times;128 pixels en entrée et ressort une
+            probabilité pour chaque Pokémon.
+        </p>
+
+        <div class="arch">
+            <div class="arch-block">
+                <div class="arch-num">1</div>
+                <span class="arch-label">Conv2D 32</span>
+                <span class="arch-detail">3×3 · BatchNorm · ReLU · MaxPool 2×2</span>
+            </div>
+            <div class="arch-line">↓</div>
+            <div class="arch-block">
+                <div class="arch-num">2</div>
+                <span class="arch-label">Conv2D 64</span>
+                <span class="arch-detail">3×3 · BatchNorm · ReLU · MaxPool 2×2</span>
+            </div>
+            <div class="arch-line">↓</div>
+            <div class="arch-block">
+                <div class="arch-num">3</div>
+                <span class="arch-label">Conv2D 128</span>
+                <span class="arch-detail">3×3 · BatchNorm · ReLU · MaxPool 2×2</span>
+            </div>
+            <div class="arch-line">↓</div>
+            <div class="arch-block">
+                <div class="arch-num">4</div>
+                <span class="arch-label">Conv2D 256</span>
+                <span class="arch-detail">3×3 · BatchNorm · ReLU · MaxPool 2×2</span>
+            </div>
+            <div class="arch-line">↓</div>
+            <div class="arch-block">
+                <div class="arch-num">5</div>
+                <span class="arch-label">Conv2D 512</span>
+                <span class="arch-detail">3×3 · BatchNorm · ReLU · MaxPool 2×2</span>
+            </div>
+            <div class="arch-line">↓</div>
+            <div class="arch-block" style="border-left: 3px solid #764ba2;">
+                <div class="arch-num" style="background:#764ba2;">▸</div>
+                <span class="arch-label">Classifier</span>
+                <span class="arch-detail">Flatten → Dense 1024 → Dropout → Dense 151</span>
+            </div>
+        </div>
+
+        <p style="font-size:.9rem; color:#666;">
+            Chaque bloc applique d'abord une <strong>normalisation par lot</strong> (BatchNorm)
+            pour stabiliser l'apprentissage, puis <strong>ReLU</strong> pour la non-linéarité,
+            et enfin un <strong>MaxPooling</strong> pour réduire la dimension spatiale.
+            Le <strong>Dropout</strong> à 50% dans le classifier aide à éviter le surapprentissage.
+        </p>
+    </section>
+
+    <!-- ── Dataset ──────────────────────────────────────── -->
+    <section>
+        <h2>📦 Dataset</h2>
+        <p>
+            Le modèle est entraîné sur le dataset
+            <a href="https://www.kaggle.com/datasets/thedagger/pokemon-generation-one" target="_blank" rel="noopener">Pokemon Generation One</a>
+            disponible sur Kaggle. Il contient des images des <strong>151 Pokémon</strong> de
+            première génération (Bulbizarre, Salamèche, Carapuce, Pikachu…).
+        </p>
+        <p>
+            Le téléchargement est automatique grâce à <code>kagglehub</code>.
+            Les données sont réparties en <strong>70% entraînement</strong>,
+            <strong>15% validation</strong> et <strong>15% test</strong>.
+        </p>
+    </section>
+
+    <!-- ── Code ─────────────────────────────────────────── -->
+    <section>
+        <h2>💻 Code source</h2>
+        <p>
+            Tout le code est sur
+            <a href="https://github.com/EthanCarollo/pikacnn" target="_blank" rel="noopener">GitHub</a>.
+        </p>
+        <p>Pour lancer l'entraînement&nbsp;:</p>
+        <pre style="background:#1a1a2e;color:#e0e0e0;padding:1rem 1.2rem;border-radius:8px;overflow-x:auto;font-size:.9rem;"><code>pip install -r requirements.txt
+python train.py</code></pre>
+        <p style="font-size:.88rem;color:#666;">
+            Optimiseur&nbsp;: <strong>AdamW</strong> avec cosine decay et warmup.
+            Early stopping avec patience de 10 époques.
+            Checkpoint automatique du meilleur modèle.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    <p>Fait avec ❤️ et JAX/Flax ·
+       <a href="https://github.com/EthanCarollo/pikacnn" target="_blank" rel="noopener">EthanCarollo/pikacnn</a></p>
+</footer>
+
+</body>
+</html>
