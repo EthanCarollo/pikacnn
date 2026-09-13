@@ -1,7 +1,7 @@
 # pikacnn
 
 Pokemon image classification with a **JAX/Flax** convolutional neural network.
-Trained on the [Pokemon Generation One](https://www.kaggle.com/datasets/thedagger/pokemon-generation-one) dataset.
+Trained on the 1025 species of the National Dex, generations I to IX.
 
 ## Setup
 
@@ -18,20 +18,28 @@ pip install -r requirements.txt
 
 ## Dataset
 
-The first-generation dataset (151 species, 128×128 JPEGs) is versioned directly
-in this repo under [`data/pokemon/`](data/pokemon) — one folder per class. No
-Kaggle account needed: just clone and train.
+The dataset is versioned directly in this repo under
+[`data/pokemon/`](data/pokemon) — one folder per class, 128×128 JPEGs, all
+**1025 species** of the National Dex (generations I–IX). No Kaggle account
+needed: just clone and train.
 
 ```
 data/pokemon/
 ├── Bulbasaur/
 ├── Charmander/
-├── ...            (151 class folders)
-└── Zubat/
+├── ...            (1025 class folders)
+└── Zygarde/
 ```
 
-For higher-resolution training you can instead point `train.py` at the full
-Kaggle [Pokemon Generation One](https://www.kaggle.com/datasets/thedagger/pokemon-generation-one)
+Generation I uses rendered images (from the Kaggle *Pokemon Generation One*
+mirrors); generations II–IX use official sprites (no shiny variants). Sources
+and licenses: `Dusduo/1stGen-Pokemon-Images` and
+`RogerKoala/gen1-pokemon-images` (MIT) for gen I,
+`JJMack/pokemon-classification-gen1-9` (CC-BY-NC-SA-4.0) for gens II–IX.
+Rebuild everything with `tools/build_dataset.py`.
+
+For higher-resolution training on generation I you can point `train.py` at
+the full Kaggle [Pokemon Generation One](https://www.kaggle.com/datasets/thedagger/pokemon-generation-one)
 set (~800 imgs/species): delete or rename `data/pokemon` and configure Kaggle
 API credentials (`kagglehub` will download it automatically on first run).
 

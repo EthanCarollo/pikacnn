@@ -1,5 +1,5 @@
 """
-Training script for Pokemon Generation One CNN.
+Training script for the Pokemon CNN (National Dex #001-#1025).
 
 Loads the committed dataset from data/pokemon, trains the model, and saves
 the best checkpoint. All hyperparameters are defined in the CONFIG dict at

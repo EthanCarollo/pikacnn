@@ -100,7 +100,7 @@
 
 <header>
     <h1>🧠 PokéCNN</h1>
-    <p>Reconnaître les 151 Pokémon de la première génération avec un réseau de neurones convolutif</p>
+    <p>Reconnaître les 1025 Pokémon du Pokédex national (générations I à IX) avec un réseau de neurones convolutif</p>
 </header>
 
 <main>
@@ -168,7 +168,7 @@
             <div class="arch-block" style="border-left: 3px solid #764ba2;">
                 <div class="arch-num" style="background:#764ba2;">▸</div>
                 <span class="arch-label">Classifier</span>
-                <span class="arch-detail">Flatten → Dense 1024 → Dropout → Dense 151</span>
+                <span class="arch-detail">Flatten → Dense 1024 → Dropout → Dense 1025</span>
             </div>
         </div>
 
@@ -184,16 +184,17 @@
     <section>
         <h2>📦 Dataset</h2>
         <p>
-            Le modèle est entraîné sur les <strong>151 Pokémon</strong> de
-            première génération (Bulbizarre, Salamèche, Carapuce, Pikachu…).
-            Le jeu de données est directement versionné dans le dépôt sous
-            <code>data/pokemon/</code> (images 128×128, un dossier par espèce) :
-            il suffit de cloner le dépôt pour lancer l'entraînement, sans compte
-            Kaggle. Il est recompilé par <code>tools/build_dataset.py</code> à partir
-            de deux jeux de données publics Hugging Face (<em>1stGen-Pokemon-Images</em>
-            de Dusduo et <em>gen1-pokemon-images</em> de RogerKoala), eux-mêmes basés
-            sur le dataset Kaggle
-            <a href="https://www.kaggle.com/datasets/thedagger/pokemon-generation-one" target="_blank" rel="noopener">Pokemon Generation One</a>.
+            Le modèle est entraîné sur les <strong>1025 Pokémon</strong> du
+            Pokédex national, générations I à IX (Bulbizarre, Pikachu, Croconaw,
+            Lucario… jusqu'à Pecharunt). Le jeu de données est directement
+            versionné dans le dépôt sous <code>data/pokemon/</code> (images
+            128×128, un dossier par espèce) : il suffit de cloner le dépôt pour
+            lancer l'entraînement, sans compte Kaggle. Il est recompilé par
+            <code>tools/build_dataset.py</code> à partir de trois jeux de données
+            publics Hugging Face : <em>1stGen-Pokemon-Images</em> (Dusduo) et
+            <em>gen1-pokemon-images</em> (RogerKoala, MIT) pour la génération I,
+            <em>pokemon-classification-gen1-9</em> (JJMack, CC-BY-NC-SA-4.0,
+            sprites officiels non chromatiques) pour les générations II à IX.
         </p>
         <p>
             Les données sont réparties en <strong>70% entraînement</strong>,

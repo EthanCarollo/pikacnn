@@ -1,5 +1,5 @@
 """
-Data loader for the Pokemon Generation One dataset.
+Data loader for the Pokemon image dataset (National Dex #001-#1025).
 
 The 151-species gen-1 dataset lives in `data/pokemon` (one folder per class,
 128x128 JPEGs) and is loaded directly from there. If it is missing, `train.py`
