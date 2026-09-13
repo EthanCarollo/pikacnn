@@ -30,7 +30,6 @@ import sys
 import unicodedata
 import urllib.request
 
-import pyarrow.parquet as pq
 from PIL import Image
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -108,6 +107,7 @@ def dusduo_readme():
 
 
 def from_dusduo():
+    import pyarrow.parquet as pq
     label_names = dusduo_readme()
     n_ok = n_bad = 0
     for name, expected in DUSDUO_FILES.items():
@@ -172,6 +172,9 @@ def clean_species_name(name):
     # curly apostrophes ("Farfetch’d") into ASCII so they get stripped too
     name = name.replace("‘", "'").replace("’", "'")
     name = re.sub(r"[:?\"<>|*']", "", name)
+    # Windows silently strips trailing dots/commas from folder names
+    # ("Mime Jr.," -> "Mime Jr"), so mirror that here
+    name = name.rstrip(" .,")
     return re.sub(r"\s+", " ", name).strip()
 
 
@@ -210,6 +213,7 @@ def from_jjmack():
     #001-#151 — generation I keeps its rendered images. Species come from the
     dex number embedded in each file name, resolved to the official English
     display name via PokeAPI."""
+    import pyarrow.parquet as pq
     existing = {
         d for d in os.listdir(OUT) if os.path.isdir(os.path.join(OUT, d))
     }
