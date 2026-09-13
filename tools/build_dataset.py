@@ -1,15 +1,18 @@
-"""Rebuild data/pokemon: the first-generation Pokemon classification dataset.
+"""Rebuild data/pokemon: the Pokemon classification dataset (generations I-IX).
 
 Layout: data/pokemon/<Species>/*.jpg — 128x128 JPEGs, one folder per class
-(151 species, the National Dex #001-#151).
+(the National Dex #001-#1025).
 
-Sources (public Hugging Face mirrors of the Kaggle 'Pokemon Generation One'
-dataset, plus a 151-species collection):
-  - Dusduo/1stGen-Pokemon-Images : parquet dumps, ~10.5k images. Covers 142
-    species; its 'Mr. Mime' and 'MrMime' labels are merged into one folder.
+Sources (public Hugging Face datasets):
+  - Dusduo/1stGen-Pokemon-Images : parquet dumps, ~10.5k rendered images.
+    Covers 142 species; its 'Mr. Mime' and 'MrMime' labels are merged into one
+    folder.
   - RogerKoala/gen1-pokemon-images : per-species folders (MIT license), used
     to fill the 9 species missing from Dusduo (Golem, Kabuto, Krabby, Muk,
     Nidoran-f, Nidoran-m, Onix, Paras, Persian).
+  - JJMack/pokemon-classification-gen1-9 : 256px official sprites
+    (CC-BY-NC-SA-4.0), used for generations II-IX only (shiny variants
+    excluded). Generation I species keep their rendered images.
 
 Dusduo/1stGen-Pokemon-Images declares no license on Hugging Face; the dataset
 is redistributed here with attribution only. See the Kaggle source page for
@@ -24,6 +27,7 @@ import json
 import os
 import re
 import sys
+import unicodedata
 import urllib.request
 
 import pyarrow.parquet as pq
@@ -43,6 +47,13 @@ DUSDUO_FILES = {
 }
 ROGERKOALA = "RogerKoala/gen1-pokemon-images"
 ROGERKOALA_FILL = ["Golem", "Kabuto", "Krabby", "Muk", "Nidoran-f", "Nidoran-m", "Onix", "Paras", "Persian"]
+JJMACK = "JJMack/pokemon-classification-gen1-9"
+# cache name -> (source file, expected bytes)
+JJMACK_FILES = {
+    "jj_train": ("train", 437175163),
+    "jj_val": ("validation", 72568614),
+    "jj_test": ("test", 89673734),
+}
 
 SIZE = (128, 128)
 JPEG_QUALITY = 90
@@ -146,10 +157,103 @@ def from_rogerkoala():
             print(f"[rk] {split}/{species}: cumulative ok={n_ok}", flush=True)
 
 
+def clean_species_name(name):
+    """Normalize a display species name into a folder-safe name.
+
+    Strips accents (Flabebe), gender symbols (Nidoran-f/-m), apostrophes
+    (Farfetchd) and characters illegal in Windows paths (Type: Null ->
+    Type Null)."""
+    name = unicodedata.normalize("NFKD", name)
+    name = "".join(ch for ch in name if not unicodedata.combining(ch))
+    name = name.replace("♀", "-f").replace("♂", "-m")
+    # A few rows carry file names instead of species names ("Iron_Thorns.png")
+    name = re.sub(r"(?i)\.(png|jpe?g|webp)$", "", name)
+    name = name.replace("_", " ")
+    # curly apostrophes ("Farfetch’d") into ASCII so they get stripped too
+    name = name.replace("‘", "'").replace("’", "'")
+    name = re.sub(r"[:?\"<>|*']", "", name)
+    return re.sub(r"\s+", " ", name).strip()
+
+
+def pokeapi_species_names():
+    """id -> English display name, from PokeAPI's pokemon_species_names.csv."""
+    csv_path = os.path.join(CACHE, "species_names.csv")
+    if not os.path.exists(csv_path):
+        os.makedirs(CACHE, exist_ok=True)
+        fetch(
+            "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/"
+            "data/v2/csv/pokemon_species_names.csv", csv_path,
+        )
+    names = {}
+    with open(csv_path, encoding="utf-8") as f:
+        for line in f:
+            parts = line.split(",")
+            if len(parts) >= 3 and parts[1] == "9":  # local_language_id 9 = English
+                names[int(parts[0])] = parts[2]
+    return names
+
+
+def species_from_file_name(file_name, names):
+    """JJMack file names look like '0137-Porygon-SpriteBack-4.png'; the
+    4-digit prefix is the National Dex number. The dataset's own 'name'
+    column is corrupted for hyphenated species ('Ho-Oh' -> 'Ho')."""
+    m = re.match(r"(\d{4})-", file_name)
+    if m and int(m.group(1)) in names:
+        return names[int(m.group(1))]
+    return None
+
+
+def from_jjmack():
+    """Add generations II-IX from the JJMack sprite dataset.
+
+    Skips shiny variants (wrong colors for species ID) and National Dex
+    #001-#151 — generation I keeps its rendered images. Species come from the
+    dex number embedded in each file name, resolved to the official English
+    display name via PokeAPI."""
+    existing = {
+        d for d in os.listdir(OUT) if os.path.isdir(os.path.join(OUT, d))
+    }
+    names = pokeapi_species_names()
+    n_ok = n_skip = 0
+    for name, (source, expected) in JJMACK_FILES.items():
+        path = os.path.join(CACHE, f"{name}.parquet")
+        if not (os.path.exists(path) and os.path.getsize(path) == expected):
+            os.makedirs(CACHE, exist_ok=True)
+            print(f"[jjmack] downloading {name}.parquet ...", flush=True)
+            fetch(hf_resolve(JJMACK, f"{source}.parquet"), path)
+        pf = pq.ParquetFile(path)
+        idx = 0
+        for batch in pf.iter_batches(
+            batch_size=256,
+            columns=["image_data", "generation", "shiny", "file_name", "name"],
+        ):
+            for row in batch.to_pylist():
+                idx += 1
+                if row["shiny"] == "yes":
+                    n_skip += 1
+                    continue
+                species = species_from_file_name(row["file_name"], names)
+                species = clean_species_name(
+                    species if species else row.get("name") or ""
+                )
+                if not species or species in existing:
+                    # existing covers every National Dex #001-#151 species
+                    # (rendered images already committed)
+                    n_skip += 1
+                    continue
+                stem = os.path.splitext(os.path.basename(row["file_name"]))[0]
+                if save_image(row["image_data"], species, f"j{name}{idx:06d}{stem[-4:]}"):
+                    n_ok += 1
+                else:
+                    n_skip += 1
+        print(f"[jjmack] {name}: cumulative ok={n_ok} skip={n_skip}", flush=True)
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     from_dusduo()
     from_rogerkoala()
+    from_jjmack()
     species = sorted(
         d for d in os.listdir(OUT) if os.path.isdir(os.path.join(OUT, d))
     )
