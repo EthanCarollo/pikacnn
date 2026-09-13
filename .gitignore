@@ -12,8 +12,12 @@ env/
 # JAX compilation cache
 .jax_cache/
 
-# Dataset (downloaded automatically)
-data/
+# Dataset — data/pokemon is versioned; ignore the rest of data/
+/data/*
+!/data/pokemon/
+
+# Raw downloads for tools/build_dataset.py
+.dataset_cache/
 
 # Model checkpoints
 checkpoints/
