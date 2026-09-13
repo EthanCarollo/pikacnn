@@ -184,13 +184,18 @@
     <section>
         <h2>📦 Dataset</h2>
         <p>
-            Le modèle est entraîné sur le dataset
-            <a href="https://www.kaggle.com/datasets/thedagger/pokemon-generation-one" target="_blank" rel="noopener">Pokemon Generation One</a>
-            disponible sur Kaggle. Il contient des images des <strong>151 Pokémon</strong> de
+            Le modèle est entraîné sur les <strong>151 Pokémon</strong> de
             première génération (Bulbizarre, Salamèche, Carapuce, Pikachu…).
+            Le jeu de données est directement versionné dans le dépôt sous
+            <code>data/pokemon/</code> (images 128×128, un dossier par espèce) :
+            il suffit de cloner le dépôt pour lancer l'entraînement, sans compte
+            Kaggle. Il est recompilé par <code>tools/build_dataset.py</code> à partir
+            de deux jeux de données publics Hugging Face (<em>1stGen-Pokemon-Images</em>
+            de Dusduo et <em>gen1-pokemon-images</em> de RogerKoala), eux-mêmes basés
+            sur le dataset Kaggle
+            <a href="https://www.kaggle.com/datasets/thedagger/pokemon-generation-one" target="_blank" rel="noopener">Pokemon Generation One</a>.
         </p>
         <p>
-            Le téléchargement est automatique grâce à <code>kagglehub</code>.
             Les données sont réparties en <strong>70% entraînement</strong>,
             <strong>15% validation</strong> et <strong>15% test</strong>.
         </p>

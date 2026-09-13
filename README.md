@@ -18,15 +18,22 @@ pip install -r requirements.txt
 
 ## Dataset
 
-The dataset is downloaded automatically on first run via `kagglehub`.
-Make sure you have a Kaggle account and your API credentials configured:
+The first-generation dataset (151 species, 128×128 JPEGs) is versioned directly
+in this repo under [`data/pokemon/`](data/pokemon) — one folder per class. No
+Kaggle account needed: just clone and train.
 
-```bash
-# Place kaggle.json in ~/.kaggle/ (download from Kaggle → Settings → API)
-mkdir -p ~/.kaggle
-cp /path/to/kaggle.json ~/.kaggle/
-chmod 600 ~/.kaggle/kaggle.json
 ```
+data/pokemon/
+├── Bulbasaur/
+├── Charmander/
+├── ...            (151 class folders)
+└── Zubat/
+```
+
+For higher-resolution training you can instead point `train.py` at the full
+Kaggle [Pokemon Generation One](https://www.kaggle.com/datasets/thedagger/pokemon-generation-one)
+set (~800 imgs/species): delete or rename `data/pokemon` and configure Kaggle
+API credentials (`kagglehub` will download it automatically on first run).
 
 ## Training
 
