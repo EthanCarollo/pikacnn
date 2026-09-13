@@ -3,7 +3,8 @@ jax[cpu]
 flax>=0.10.0
 optax>=0.2.0
 
-# Dataset
+# Optional fallback: only needed if data/pokemon is removed and you want
+# train.py to download the full-resolution Kaggle copy instead
 kagglehub>=0.3.0
 
 # Data processing

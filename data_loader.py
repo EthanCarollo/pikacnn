@@ -1,23 +1,34 @@
 """
 Data loader for the Pokemon Generation One dataset.
 
-Downloads the dataset via kagglehub, loads images into numpy arrays,
-and provides train/val/test splits with batch generation.
+The 151-species gen-1 dataset lives in `data/pokemon` (one folder per class,
+128x128 JPEGs) and is loaded directly from there. If it is missing, `train.py`
+falls back to downloading the full-resolution Kaggle copy via kagglehub.
 """
 
 import os
 import numpy as np
 from PIL import Image
 
-import kagglehub
+
+LOCAL_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "pokemon")
 
 
 def download_dataset() -> str:
     """Download Pokemon Generation One from Kaggle. Returns the local path."""
-    print("[data] downloading dataset from kagglehub ...")
+    import kagglehub
+
+    print("[data] dataset/pokemon not found, downloading from kagglehub ...")
     path = kagglehub.dataset_download("thedagger/pokemon-generation-one")
     print(f"[data] dataset downloaded to: {path}")
     return path
+
+
+def get_data_dir() -> str:
+    """Return the committed dataset if present, otherwise download it."""
+    if os.path.isdir(LOCAL_DATA_DIR):
+        return LOCAL_DATA_DIR
+    return download_dataset()
 
 
 def load_dataset(data_dir: str, image_size: tuple[int, int] = (128, 128)):

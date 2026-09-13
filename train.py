@@ -1,8 +1,9 @@
 """
 Training script for Pokemon Generation One CNN.
 
-Downloads the dataset, trains the model, and saves the best checkpoint.
-All hyperparameters are defined in the CONFIG dict at the top of the file.
+Loads the committed dataset from data/pokemon, trains the model, and saves
+the best checkpoint. All hyperparameters are defined in the CONFIG dict at
+the top of the file.
 """
 
 import os
@@ -18,7 +19,7 @@ import orbax.checkpoint as ocp
 from tqdm import tqdm
 
 from data_loader import (
-    download_dataset,
+    get_data_dir,
     load_dataset,
     split_dataset,
     batch_iterator,
@@ -178,7 +179,7 @@ def main():
     rng = jax.random.PRNGKey(config["seed"])
 
     # ── Data ───────────────────────────────────────────────────────
-    data_dir = download_dataset()
+    data_dir = get_data_dir()
     images, labels, class_names = load_dataset(data_dir, config["image_size"])
     config["num_classes"] = len(class_names)
     config["steps_per_epoch"] = num_batches(
