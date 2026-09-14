@@ -36,9 +36,10 @@ OUT = bd.OUT
 CACHE = bd.CACHE
 
 # Images present in the raw sources but intentionally removed from the
-# committed dataset: byte-identical copies of another species' render, kept
-# only in the folder whose label matches the actual artwork (audited
-# visually). Format: "<species>/<file>.jpg".
+# committed dataset: byte-identical copies stored under two species (kept
+# only where the artwork matches the folder, audited by eye) and broken
+# source images (placeholder icon / near-blank fragment).
+# Format: "<species>/<file>.jpg".
 KNOWN_REMOVED = {
     "Abra/d00000000.jpg",            # actually Kadabra
     "Alakazam/d00000223.jpg",        # actually Kadabra
@@ -53,6 +54,8 @@ KNOWN_REMOVED = {
     "Pidgey/d00000010.jpg",          # actually Pidgeot
     "Pidgeotto/d00000140.jpg",       # actually Pidgeot
     "Poliwhirl/def4d09c9e96c4fc1b2bdb1b427a92820.jpg",  # actually Poliwrath
+    "Fearow/d00000020.jpg",            # broken-image placeholder icon in source
+    "Goldeen/d00000198.jpg",           # near-blank fragment in source
 }
 
 
