@@ -19,6 +19,9 @@ env/
 # Raw downloads for tools/build_dataset.py
 .dataset_cache/
 
+# Dataset build/audit scripts — local tooling, not part of the repo
+tools/
+
 # Model checkpoints
 checkpoints/
 *.ckpt
