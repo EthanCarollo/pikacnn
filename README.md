@@ -36,7 +36,6 @@ mirrors); generations II–IX use official sprites (no shiny variants). Sources
 and licenses: `Dusduo/1stGen-Pokemon-Images` and
 `RogerKoala/gen1-pokemon-images` (MIT) for gen I,
 `JJMack/pokemon-classification-gen1-9` (CC-BY-NC-SA-4.0) for gens II–IX.
-Rebuild everything with `tools/build_dataset.py`.
 
 For higher-resolution training on generation I you can point `train.py` at
 the full Kaggle [Pokemon Generation One](https://www.kaggle.com/datasets/thedagger/pokemon-generation-one)
