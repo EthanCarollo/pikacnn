@@ -36,3 +36,19 @@ This is a little repo of a Pokemon CNN that aims to recognize every pokemon of t
 We can use a large amount of dataset, in our case, we use : 
 https://www.kaggle.com/datasets/mikoajkolman/pokemon-images-first-generation17000-files/data
 and then, we just put it into data/pokemon
+
+## Dataset preflight
+
+The TensorFlow notebook uses `data/pokemon-128aug` as its model input. It expects one immediate subdirectory per class, containing image files with `.png`, `.jpg`, or `.jpeg` extensions (extension matching is case-insensitive).
+
+Check the expected dataset before running the notebook:
+
+```sh
+python3 tools/check_dataset.py
+python3 tools/check_dataset.py /path/to/dataset
+python3 tools/check_dataset.py --json
+```
+
+The check reports class counts and ignored files. It exits with status `0` when every class contains at least one accepted image, or `1` when the path or layout is invalid. Unsupported files are reported but do not invalidate a class that also contains accepted images. The check only examines directory entries and file extensions; it does not open or decode image contents.
+
+The augmentation notebook currently writes to `data/pokemon-128augmented`, while the model reads `data/pokemon-128aug`. This preflight command does not copy or rename either dataset, so keep that path difference in mind when preparing notebook inputs.
