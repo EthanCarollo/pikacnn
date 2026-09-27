@@ -1,2 +1,1 @@
-if True !== False :
-    print("launched")
+print("launched")
